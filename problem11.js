@@ -42,3 +42,38 @@ console.log(longestUniqueSubstring("dvdf"));     // 3 ("vdf")
 // If a repeating character is found, move the start pointer to the right of its last seen index.
 // Update the max length whenever a longer unique substring is found.
 // This algorithm runs in O(n) time complexity, making it efficient.
+
+// another solution
+function lengthOfLongestSubstring(s) {
+    let charSet = new Set();
+    let left = 0;
+    let maxLength = 0;
+
+    for (let right = 0; right < s.length; right++) {
+        while (charSet.has(s[right])) {
+            charSet.delete(s[left]);
+            left++;
+        }
+        charSet.add(s[right]);
+        maxLength = Math.max(maxLength, right - left + 1);
+    }
+
+    return maxLength;
+}
+
+// Example usage
+console.log(lengthOfLongestSubstring("abcabcbb")); // Output: 3 ("abc")
+console.log(lengthOfLongestSubstring("bbbbb"));    // Output: 1 ("b")
+console.log(lengthOfLongestSubstring("pwwkew"));   // Output: 3 ("wke")
+console.log(lengthOfLongestSubstring("dvdf"));     // Output: 3 ("vdf")
+/**
+ * Explanation:
+Use a Set to store characters in the current window.
+Expand the window by adding characters (right pointer).
+If a duplicate is found, shrink the window from the left.
+Track the maximum length found.
+🔹 Time Complexity: 
+O(n) (Each character is processed at most twice)
+🔹 Space Complexity: 
+O(min(n,26)) (Since there are at most 26 lowercase letters)
+ */
